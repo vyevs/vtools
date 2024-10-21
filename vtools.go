@@ -73,7 +73,17 @@ func CountFunc[T any](s []T, shouldCount func(T) bool) int {
 
 // Counter returns a map whose keys are items in s and whose values are the counts of each item.
 // e.g. Counter([]string{7, 1, 7, 9, 1, 3}) == map[string]int{1: 2, 7: 2, 3: 1, 9: 1}
-func Counter[T comparable](s []T) map[T]int {
+func Counter[T comparable](s iter.Seq[T]) map[T]int {
+	out := make(map[T]int, 8)
+	for item := range s {
+		out[item]++
+	}
+	return out
+}
+
+// CounterSlice returns a map whose keys are items in s and whose values are the counts of each item.
+// e.g. Counter([]string{7, 1, 7, 9, 1, 3}) == map[string]int{1: 2, 7: 2, 3: 1, 9: 1}
+func CounterSlice[T comparable](s []T) map[T]int {
 	out := make(map[T]int, len(s))
 	for _, item := range s {
 		out[item]++
