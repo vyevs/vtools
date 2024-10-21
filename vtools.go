@@ -28,6 +28,7 @@ func AnySlice[T any](s []T, f func(T) bool) bool {
 	return false
 }
 
+// StrBytes returns an iterator over the bytes in s.
 func StrBytes(s string) iter.Seq[byte] {
 	return func(yield func(b byte) bool) {
 		for i := range len(s) {
@@ -89,6 +90,19 @@ func CounterSlice[T comparable](s []T) map[T]int {
 		out[item]++
 	}
 	return out
+}
+
+// Cycle returns an iterator that endlessly loops over s.
+func Cycle[T any](s []T) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		var i int
+		for {
+			if !yield(s[i]) {
+				return
+			}
+			i = (i + 1) % len(s)
+		}
+	}
 }
 
 // Filter returns a slice containing only elements of s for which shouldKeep returns true.
