@@ -1,11 +1,11 @@
 package vtools
 
 import (
-	"bufio"
 	"fmt"
 	"iter"
-	"os"
 	"time"
+
+	"golang.org/x/exp/constraints"
 )
 
 // Any returns true if f(item) is true for at least one item in seq, otherwise false.
@@ -125,28 +125,24 @@ func Map[T any, E any](s []T, to func(T) E) []E {
 	return out
 }
 
-// ReadLines reads fPath and returns all the non-empty lines.
-func ReadLines(fPath string) ([]string, error) {
-	f, err := os.Open(fPath)
-	if err != nil {
-		return nil, fmt.Errorf("os.Open failed: %v", err)
+// MaxIndex returns the max value in s along with it's index.
+// If there are multiple max value occurrences, the index of the first one is returned.
+func MaxIndex[T constraints.Ordered](s []T) (T, int) {
+	if len(s) == 0 {
+		panic("slice with length 0") // Same behavior as slices.Max
 	}
-	defer f.Close()
 
-	sc := bufio.NewScanner(f)
+	max, maxI := s[0], 0
+	for i := 1; i < len(s); i++ {
+		v := s[i]
 
-	lines := make([]string, 0, 32)
-	for sc.Scan() {
-		line := sc.Text()
-		if line != "" {
-			lines = append(lines, line)
+		if v > max {
+			max = v
+			maxI = i
 		}
 	}
-	if err := sc.Err(); err != nil {
-		return nil, fmt.Errorf("error reading lines: %v", err)
-	}
 
-	return lines, nil
+	return max, maxI
 }
 
 // SplitWS returns s split on all types of whitespace.
