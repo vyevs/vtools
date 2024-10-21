@@ -125,20 +125,6 @@ func Map[T any, E any](s []T, to func(T) E) []E {
 	return out
 }
 
-// Each calls do(item) for each item in s.
-func Each[T any](s iter.Seq[T], do func(T)) {
-	for item := range s {
-		do(item)
-	}
-}
-
-// EachSlice calls do(item) for each item in s.
-func EachSlice[T any](s []T, do func(T)) {
-	for _, item := range s {
-		do(item)
-	}
-}
-
 // ReadLines reads fPath and returns all the non-empty lines.
 func ReadLines(fPath string) ([]string, error) {
 	f, err := os.Open(fPath)
