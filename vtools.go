@@ -145,6 +145,29 @@ func MaxIndex[T constraints.Ordered](s []T) (T, int) {
 	return max, maxI
 }
 
+// Number is a constraint that contains all number types.
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+
+// Sum returns the sum of a sequence of a numbers.
+func Sum[T Number](s iter.Seq[T]) T {
+	var sum T
+	for v := range s {
+		sum += v
+	}
+	return sum
+}
+
+// SumSlice returns the sum of a slice of numbers.
+func SumSlice[T Number](s []T) T {
+	var sum T
+	for _, v := range s {
+		sum += v
+	}
+	return sum
+}
+
 // SplitWS returns s split on all types of whitespace.
 func SplitWS(s string) []string {
 	parts := make([]string, 0, 8)
