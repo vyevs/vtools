@@ -28,6 +28,16 @@ func AnySlice[T any](s []T, f func(T) bool) bool {
 	return false
 }
 
+// AllSlice returns true if f(item) returns true for all items in s, otherwise false.
+func AllSlice[T any](s []T, f func(T) bool) bool {
+	for _, it := range s {
+		if !f(it) {
+			return false
+		}
+	}
+	return true
+}
+
 // StrBytes returns an iterator over the bytes in s.
 func StrBytes(s string) iter.Seq[byte] {
 	return func(yield func(b byte) bool) {

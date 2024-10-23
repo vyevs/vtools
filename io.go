@@ -16,7 +16,7 @@ func ReadLines(fPath string) ([]string, error) {
 
 	sc := bufio.NewScanner(f)
 
-	lines := make([]string, 0, 32)
+	lines := make([]string, 0, 128)
 	for sc.Scan() {
 		line := sc.Text()
 		if line != "" {
