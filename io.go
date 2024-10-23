@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-// ReadLines reads fPath and returns all the non-empty lines.
+// ReadLines reads file fPath and returns all the non-empty lines.
 func ReadLines(fPath string) ([]string, error) {
 	f, err := os.Open(fPath)
 	if err != nil {

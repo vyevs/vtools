@@ -92,7 +92,7 @@ func CounterSlice[T comparable](s []T) map[T]int {
 	return out
 }
 
-// Cycle returns an iterator that endlessly loops over s.
+// Cycle returns an iterator that endlessly loops over s. Analogous to python's itertools.cycle.
 func Cycle[T any](s []T) iter.Seq[T] {
 	return func(yield func(T) bool) {
 		var i int
@@ -105,22 +105,39 @@ func Cycle[T any](s []T) iter.Seq[T] {
 	}
 }
 
-// Filter returns a slice containing only elements of s for which shouldKeep returns true.
-func Filter[T any](s []T, shouldKeep func(T) bool) []T {
+// Enumerate returns an iterator where the 1st item in the pair is an index and the 2nd is the item in s. Analogous to python's enumerate.
+func Enumerate[T any](s iter.Seq[T]) iter.Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		var i int
+		for v := range s {
+			if !yield(i, v) {
+				return
+			}
+			i++
+		}
+	}
+}
+
+// Filter returns a sequence of items from s for which shouldKeep(item) returns true.
+func Filter[T any](s iter.Seq[T], shouldKeep func(T) bool) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		for v := range s {
+			if shouldKeep(v) {
+				if !yield(v) {
+					return
+				}
+			}
+		}
+	}
+}
+
+// FilterSlice returns a slice containing only elements of s for which shouldKeep returns true.
+func FilterSlice[T any](s []T, shouldKeep func(T) bool) []T {
 	out := make([]T, 0, len(s))
 	for _, item := range s {
 		if shouldKeep(item) {
 			out = append(out, item)
 		}
-	}
-	return out
-}
-
-// MapSlice returns a slice of the items in s with to(item) called on each one.
-func MapSlice[T any, E any](s []T, to func(T) E) []E {
-	out := make([]E, 0, len(s))
-	for _, item := range s {
-		out = append(out, to(item))
 	}
 	return out
 }
@@ -134,6 +151,15 @@ func Map[T any, E any](s iter.Seq[T], to func(T) E) iter.Seq[E] {
 			}
 		}
 	}
+}
+
+// MapSlice returns a slice of the items in s with to(item) called on each one.
+func MapSlice[T any, E any](s []T, to func(T) E) []E {
+	out := make([]E, 0, len(s))
+	for _, item := range s {
+		out = append(out, to(item))
+	}
+	return out
 }
 
 // MaxIndex returns the max value in s along with it's index.
