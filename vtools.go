@@ -116,13 +116,24 @@ func Filter[T any](s []T, shouldKeep func(T) bool) []T {
 	return out
 }
 
-// Map returns a slice of the items in s with to(item) called on each one.
-func Map[T any, E any](s []T, to func(T) E) []E {
+// MapSlice returns a slice of the items in s with to(item) called on each one.
+func MapSlice[T any, E any](s []T, to func(T) E) []E {
 	out := make([]E, 0, len(s))
 	for _, item := range s {
 		out = append(out, to(item))
 	}
 	return out
+}
+
+// Map maps the items in s to a new sequence by calling to(s)
+func Map[T any, E any](s iter.Seq[T], to func(T) E) iter.Seq[E] {
+	return func(yield func(e E) bool) {
+		for t := range s {
+			if !yield(to(t)) {
+				return
+			}
+		}
+	}
 }
 
 // MaxIndex returns the max value in s along with it's index.
