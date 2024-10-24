@@ -215,30 +215,6 @@ func SumSlice[T Number](s []T) T {
 	return sum
 }
 
-// SplitWS returns s split on all types of whitespace.
-func SplitWS(s string) []string {
-	parts := make([]string, 0, 8)
-	buf := make([]byte, 0, 16)
-
-	for char := range StrBytes(s) {
-		if char == ' ' || char == '\t' || char == '\n' {
-			if len(buf) != 0 {
-				parts = append(parts, string(buf))
-				buf = buf[:0]
-			}
-		} else {
-
-			buf = append(buf, char)
-		}
-	}
-
-	if len(buf) != 0 {
-		parts = append(parts, string(buf))
-	}
-
-	return parts
-}
-
 // TimeIt prints to stdout the time some action took.
 // Intended usage is defer TimeIt(time.Now(), "foo")
 func TimeIt(start time.Time, action string) {
