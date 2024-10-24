@@ -232,6 +232,10 @@ func SplitWS(s string) []string {
 		}
 	}
 
+	if len(buf) != 0 {
+		parts = append(parts, string(buf))
+	}
+
 	return parts
 }
 
