@@ -10,8 +10,8 @@ func NewStack[T any](cap int) Stack[T] {
 }
 
 // Push puts t at the top of the stack.
-func (s *Stack[T]) Push(t T) {
-	*s = append(*s, t)
+func (s *Stack[T]) Push(t ...T) {
+	*s = append(*s, t...)
 }
 
 // Pop removes the item at the top of the stack and returns it.

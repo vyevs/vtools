@@ -10,8 +10,11 @@ func NewSet[T comparable](cap int) Set[T] {
 	return make(map[T]struct{}, cap)
 }
 
-func (s Set[T]) Add(t T) {
-	s[t] = struct{}{}
+// Add adds 1 or more items to the set.
+func (s Set[T]) Add(items ...T) {
+	for _, it := range items {
+		s[it] = struct{}{}
+	}
 }
 
 // Contains returns whether t exists in the set.
