@@ -8,6 +8,19 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+// Number is a constraint that contains all number types.
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+
+// Abs returns the absolute value of number a.
+func Abs[T Number](a T) T {
+	if a < 0 {
+		return -a
+	}
+	return a
+}
+
 // Any returns true if f(item) is true for at least one item in seq, otherwise false.
 func Any[T any](seq iter.Seq[T], f func(T) bool) bool {
 	for v := range seq {
@@ -190,11 +203,6 @@ func MaxIndex[T constraints.Ordered](s []T) (T, int) {
 	}
 
 	return max, maxI
-}
-
-// Number is a constraint that contains all number types.
-type Number interface {
-	constraints.Integer | constraints.Float
 }
 
 // Sum returns the sum of a sequence of a numbers.
