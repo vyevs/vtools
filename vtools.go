@@ -205,6 +205,32 @@ func MaxIndex[T constraints.Ordered](s []T) (T, int) {
 	return max, maxI
 }
 
+// Range returns an iterator over a range [low, high) with an optional step amount.
+// Range takes either 2 or 3 arguments, an interval [low, high) and an increment step, it panics otherwise.
+func Range(vs ...int) iter.Seq[int] {
+	if len(vs) < 2 {
+		panic("Range requires at least two args: the interval [low, high)")
+	}
+	if len(vs) > 3 {
+		panic("more than 3 args provided to Range, provide only [low, high) and step")
+	}
+
+	low := vs[0]
+	high := vs[1]
+	step := 1
+	if len(vs) == 3 {
+		step = vs[2]
+	}
+	return func(yield func(i int) bool) {
+		for low < high {
+			if !yield(low) {
+				return
+			}
+			low += step
+		}
+	}
+}
+
 // Sum returns the sum of a sequence of a numbers.
 func Sum[T Number](s iter.Seq[T]) T {
 	var sum T
@@ -221,6 +247,13 @@ func SumSlice[T Number](s []T) T {
 		sum += v
 	}
 	return sum
+}
+
+// SetSliceValues sets each index of s to t.
+func SetSliceValues[T any](s []T, t T) {
+	for i := range len(s) {
+		s[i] = t
+	}
 }
 
 // TimeIt prints to stdout the time some action took.

@@ -28,3 +28,10 @@ func (s Set[T]) Contains(t T) bool {
 func (s Set[T]) Delete(t T) {
 	delete(s, t)
 }
+
+// SetFromSlice returns a Set with all items in s present in the set. A utility to simplify set creation + initialization.
+func SetFromSlice[T comparable](items []T) Set[T] {
+	s := NewSet[T](len(items))
+	s.Add(items...)
+	return s
+}

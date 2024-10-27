@@ -7,10 +7,11 @@ import (
 )
 
 func main() {
-	exampleCycle()
+	//cycleExample()
+	rangeExample()
 }
 
-func exampleCycle() {
+func cycleExample() {
 	fmt.Println("Here are some example usages of vtools.Cycle:")
 	{
 		toCycle := []int{1, 2, 3}
@@ -45,5 +46,16 @@ func exampleCycle() {
 		}
 
 		fmt.Println()
+	}
+}
+
+func rangeExample() {
+	fmt.Println("Here are some example usages of vtools.Range")
+	{
+		low, high, step := 3, 7, 2
+		fmt.Printf("We will range over interval [%d, %d) with a step size %d:\n", low, high, step)
+		for v := range vtools.Range(low, high, step) {
+			fmt.Println(v)
+		}
 	}
 }
