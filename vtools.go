@@ -250,8 +250,17 @@ func SumSlice[T Number](s []T) T {
 	return sum
 }
 
+// NewSliceWithValues returns a new slice of the specified length with all values set to t.
+func NewSliceValues[T any](length int, t T) []T {
+	s := make([]T, length)
+	for i := range length {
+		s[i] = t
+	}
+	return s
+}
+
 // SetSliceValues sets each index of s to t.
-func SetSliceValues[T any](s []T, t T) {
+func SetValues[T any](s []T, t T) {
 	for i := range len(s) {
 		s[i] = t
 	}
