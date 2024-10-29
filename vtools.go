@@ -3,6 +3,7 @@ package vtools
 import (
 	"fmt"
 	"iter"
+	"strconv"
 	"time"
 
 	"golang.org/x/exp/constraints"
@@ -260,4 +261,12 @@ func SetSliceValues[T any](s []T, t T) {
 // Intended usage is defer TimeIt(time.Now(), "foo")
 func TimeIt(start time.Time, action string) {
 	fmt.Printf("%s took %s\n", action, time.Since(start))
+}
+
+func AtoiOrPanic(s string) int {
+	v, err := strconv.Atoi(s)
+	if err != nil {
+		panic(err)
+	}
+	return v
 }
