@@ -42,8 +42,18 @@ func AnySlice[T any](s []T, f func(T) bool) bool {
 	return false
 }
 
-// AllSlice returns true if f(item) returns true for all items in s, otherwise false.
-func AllSlice[T any](s []T, f func(T) bool) bool {
+// AllSlice returns whether all items in s == target.
+func AllSlice[T comparable](s []T, target T) bool {
+	for _, it := range s {
+		if it != target {
+			return false
+		}
+	}
+	return true
+}
+
+// AllSliceFunc returns true if f(item) returns true for all items in s, otherwise false.
+func AllSliceFunc[T any](s []T, f func(T) bool) bool {
 	for _, it := range s {
 		if !f(it) {
 			return false
