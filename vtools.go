@@ -1,3 +1,6 @@
+// Package vtools implements various utility types and functions for day to day use.
+// These utilities are especially useful for writing puzzle-solving code, where errors do not need to be handled explicitly.
+// These utilities include convenience functions for working with iterators and slices that are analogous to python's builtins and itertools.
 package vtools
 
 import (
@@ -203,17 +206,17 @@ func MaxIndex[T constraints.Ordered](s []T) (T, int) {
 		panic("slice with length 0") // Same behavior as slices.Max
 	}
 
-	max, maxI := s[0], 0
+	maxV, maxI := s[0], 0
 	for i := 1; i < len(s); i++ {
 		v := s[i]
 
-		if v > max {
-			max = v
+		if v > maxV {
+			maxV = v
 			maxI = i
 		}
 	}
 
-	return max, maxI
+	return maxV, maxI
 }
 
 // Range returns an iterator over a range [low, high) with an optional step amount.
@@ -260,7 +263,7 @@ func SumSlice[T Number](s []T) T {
 	return sum
 }
 
-// NewSliceWithValues returns a new slice of the specified length with all values set to t.
+// NewSliceValues returns a new slice of the specified length with all values set to t.
 func NewSliceValues[T any](length int, t T) []T {
 	s := make([]T, length)
 	for i := range length {
@@ -269,7 +272,7 @@ func NewSliceValues[T any](length int, t T) []T {
 	return s
 }
 
-// SetSliceValues sets each index of s to t.
+// SetValues sets each index of s to t.
 func SetValues[T any](s []T, t T) {
 	for i := range len(s) {
 		s[i] = t
@@ -282,6 +285,7 @@ func TimeIt(start time.Time, action string) {
 	fmt.Printf("%s took %s\n", action, time.Since(start))
 }
 
+// AtoiOrPanic returns string s converted to an integer, or panics on conversion error.
 func AtoiOrPanic(s string) int {
 	v, err := strconv.Atoi(s)
 	if err != nil {

@@ -6,8 +6,8 @@ type Set[T comparable] map[T]struct{}
 
 // NewSet returns a Set with the specified capacity.
 // The capacity may prevent allocations when working with the set.
-func NewSet[T comparable](cap int) Set[T] {
-	return make(map[T]struct{}, cap)
+func NewSet[T comparable](capacity int) Set[T] {
+	return make(map[T]struct{}, capacity)
 }
 
 // Add adds 1 or more items to the set.

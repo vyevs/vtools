@@ -5,8 +5,8 @@ type Stack[T any] []T
 
 // NewStack returns a Stack with the specified capacity.
 // This capacity may prevent memory allocations when working with the stack.
-func NewStack[T any](cap int) Stack[T] {
-	return make([]T, 0, cap)
+func NewStack[T any](stackCap int) Stack[T] {
+	return make([]T, 0, stackCap)
 }
 
 // Push puts t at the top of the stack.
