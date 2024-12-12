@@ -8,7 +8,8 @@ import (
 
 func main() {
 	//cycleExample()
-	rangeExample()
+	//rangeExample()
+	readLinesBytesExample()
 }
 
 func cycleExample() {
@@ -57,5 +58,16 @@ func rangeExample() {
 		for v := range vtools.Range(low, high, step) {
 			fmt.Println(v)
 		}
+	}
+}
+
+func readLinesBytesExample() {
+	lines, err := vtools.ReadLinesBytes("main.go")
+	if err != nil {
+		panic(err)
+	}
+
+	for _, l := range lines {
+		fmt.Printf("%s\n", l)
 	}
 }
